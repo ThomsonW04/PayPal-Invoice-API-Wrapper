@@ -3,10 +3,6 @@ import base64
 
 class PayPalInvoiceController:
     def __init__(self, client_id, client_secret, vendor_given_names, vendor_last_names, vendor_email, invoice_prefix, currency_code, dev_mode):
-        if dev_mode == "Y":
-            self.invoice_api_url = "https://api-m.sandbox.paypal.com/v2/invoicing/invoices"
-        else:
-            self.invoice_api_url = "https://api-m.paypal.com/v2/invoicing/invoices"
         self.headers = {
             'Authorization': f'Bearer {self.__get_api_token(client_id, client_secret)}',
             'Content-Type': 'application/json',
@@ -17,6 +13,10 @@ class PayPalInvoiceController:
         self.vendor_email = vendor_email
         self.invoice_prefix = invoice_prefix
         self.currency_code = currency_code
+        if dev_mode == "Y":
+            self.invoice_api_url = "https://api-m.sandbox.paypal.com/v2/invoicing/invoices"
+        else:
+            self.invoice_api_url = "https://api-m.paypal.com/v2/invoicing/invoices"
 
     def __get_api_token(self, client_id, client_secret):
         auth = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
