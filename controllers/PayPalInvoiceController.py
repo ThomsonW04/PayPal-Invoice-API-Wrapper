@@ -42,7 +42,7 @@ class PayPalInvoiceController:
                     "given_name": self.vendor_given_names,
                     "surname": self.vendor_last_names
                 },
-                "email_address": self.vendor_last_names
+                "email_address": self.vendor_email
             },
             "primary_recipients": [
                 {
