@@ -3,7 +3,7 @@ import sqlite3
 
 class DataBaseContoller:
     def __init__(self):
-        self.database = sqlite3.connect(f"{os.getcwd}/data/db.sqlite")
+        self.database = sqlite3.connect(f"{os.getcwd()}/data/db.sqlite")
         self.cursor = self.database.cursor()
     
     def insert_new_invoice(self, invoice_tag):
