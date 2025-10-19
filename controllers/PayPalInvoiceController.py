@@ -71,4 +71,8 @@ class PayPalInvoiceController:
         }
 
         return requests.post(f"{self.invoice_api_url}/{invoice_id}/send", json=body, headers=self.headers)
+    
+    def get_invoice_details(self, invoice_id):
+        return requests.get(f'{self.invoice_api_url}/{invoice_id}', headers=self.headers)
+
         

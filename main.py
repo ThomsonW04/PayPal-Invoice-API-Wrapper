@@ -38,12 +38,13 @@ class App:
     def send_invoice(self, invoice_id):
         response = self.invoice_manager.send_invoice(invoice_id)
         return response.json()
+    
+    def get_invoice_information(self, invoice_id):
+        return self.invoice_manager.get_invoice_details(invoice_id).json()
 
 def main():
     app = App()
-    invoice_tag = app.create_local_invoice()
-    resp = app.create_draft_invoice(invoice_tag, "Pleasure doing business.", input("Email: "), {"name": "Living", "value": "50.00"})
-    resp = app.send_invoice(resp['id'])
+    resp = app.get_invoice_information('INV2-G2LL-XZQ2-3WCH-7RRU')
     print(resp)
 
 if __name__ == "__main__":
