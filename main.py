@@ -42,12 +42,9 @@ class App:
 def main():
     app = App()
     invoice_tag = app.create_local_invoice()
-    resp = app.create_draft_invoice(invoice_tag, "Pleasure doing business.", "melissajadeclark10@gmail.com", {"name": "Living", "value": "50.00"})
+    resp = app.create_draft_invoice(invoice_tag, "Pleasure doing business.", input("Email: "), {"name": "Living", "value": "50.00"})
     resp = app.send_invoice(resp['id'])
     print(resp)
 
 if __name__ == "__main__":
     main()
-        
-
-
