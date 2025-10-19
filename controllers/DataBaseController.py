@@ -16,5 +16,8 @@ class DataBaseContoller:
     
     def set_paypal_invoice_id(self, paypal_invoice_id, invoice_tag):
         self.cursor.execute("UPDATE invoices SET paypal_invoice_id = ? WHERE invoice_tag = ?", (paypal_invoice_id, invoice_tag,))
-        return self.cursor.fetchone()
+        self.database.commit()
 
+    def delete_invoice(self, invoice_tag):
+        self.cursor.execute("DELETE FROM invoices WHERE invoice_tag = ?", (invoice_tag,))
+        self.database.commit()
