@@ -7,9 +7,14 @@ class DataBaseContoller:
         self.cursor = self.database.cursor()
     
     def insert_new_invoice(self, invoice_tag):
-        self.cursor.execute("""INSERT INTO invoices (invoice_tag) VALUES (?)""", (invoice_tag,))
+        self.cursor.execute("INSERT INTO invoices (invoice_tag) VALUES (?)", (invoice_tag,))
         self.database.commit()
 
     def get_last_created_invoice(self):
         self.cursor.execute("SELECT * FROM invoices ORDER BY id DESC LIMIT 1")
         return self.cursor.fetchone()
+    
+    def set_paypal_invoice_id(self, paypal_invoice_id, invoice_tag):
+        self.cursor.execute("UPDATE invoices SET paypal_invoice_id = ? WHERE invoice_tag = ?", (paypal_invoice_id, invoice_tag,))
+        return self.cursor.fetchone()
+
