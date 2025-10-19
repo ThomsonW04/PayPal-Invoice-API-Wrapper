@@ -28,7 +28,13 @@ class App:
 
     def create_draft_invoice(self, invoice_tag, note, customer_email, item):
         response = self.invoice_manager.create_invoice(invoice_tag, note, customer_email, item)
-        print(response)
+        if response.status_code == 201:
+            self.database.set_paypal_invoice_id(response['id'])
+            return response
+        else:
+            self.database.delete_invoice(invoice_tag)
+            return response
+
 
 def main():
     app = App()
