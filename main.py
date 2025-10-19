@@ -1,19 +1,16 @@
-import requests
-import os
+from controllers.DataBaseController import DataBaseContoller
+from controllers.PayPalInvoiceController import PayPalInvoiceController
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
-class PayPalInvoiceManager:
-    def __init__(self):
-        self.headers = {
-            'Authorization': f'Bearer {os.getenv('PAYPAL_API_TOKEN')}',
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation',
-        }
-        self.vendor = os.getenv('VENDOR_NAME')
+def main():
+    database = DataBaseContoller()
+    invoice_manager = PayPalInvoiceController(os.getenv("PAYPAL_API_TOKEN"), os.getenv("VENDOR_NAME"))
 
-    def create_invoice(self, )
+if __name__ == "__main__":
+    main()
         
 
 
