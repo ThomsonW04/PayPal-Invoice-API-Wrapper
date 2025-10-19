@@ -24,13 +24,13 @@ class App:
         self.database.insert_new_invoice(new_tag)
         return new_tag
 
-    def create_draft_invoice(self, invoice_tag, note):
-        self.invoice_manager.create_invoice(invoice_tag, note)
+    def create_draft_invoice(self, invoice_tag, note, customer_email, item):
+        self.invoice_manager.create_invoice(invoice_tag, note, customer_email, item)
 
 def main():
     app = App()
     invoice_tag = app.create_local_invoice()
-    app.create_draft_invoice(invoice_tag, "Pleasure doing business")
+    app.create_draft_invoice(invoice_tag, "Pleasure doing business.", "melissajadeclark10@gmail.com", {"name": "Living", "value": "50.00"})
 
 if __name__ == "__main__":
     main()

@@ -14,12 +14,39 @@ class PayPalInvoiceController:
         self.invoice_prefix = invoice_prefix
         self.currency_code = currency_code
 
-    def create_invoice(self, invoice_id, note):
+    def create_invoice(self, invoice_id, note, customer_email, item):
         body = {
             "detail": {
                 "invoice_number": self.invoice_prefix + invoice_id,
                 "currency_code": self.currency_code,
                 "note": note
-            }
+            },
+            "invoicer": {
+                "name": {
+                    "given_name": self.vendor_given_names,
+                    "surname": self.vendor_last_names
+                },
+                "email_address": self.vendor_last_names
+            },
+            "primary_recipients": [
+                {
+                    "billing_info": {
+                        "email_address": customer_email
+                    }
+                }
+            ],
+            "items": [
+                {
+                    "name": item.name,
+                    "quantity": "1",
+                    "unit_amount": {
+                        "currency_code": self.currency_code,
+                        "value": item.value
+                    }
+                }
+            ]
         }
+
+        response = requests.post(self.invoice_api_url, json=body, headers=self.headers)
+        return response.json()
         
