@@ -8,7 +8,7 @@ class PayPalInvoiceController:
         else:
             self.invoice_api_url = "https://api-m.paypal.com/v2/invoicing/invoices"
         self.headers = {
-            'Authorization': f'Bearer {self.__get_api_token()}',
+            'Authorization': f'Bearer {self.__get_api_token(client_id, client_secret)}',
             'Content-Type': 'application/json',
             'Prefer': 'return=representation',
         }
