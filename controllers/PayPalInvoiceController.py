@@ -17,7 +17,7 @@ class PayPalInvoiceController:
     def create_invoice(self, invoice_id, note, customer_email, item):
         body = {
             "detail": {
-                "invoice_number": self.invoice_prefix + invoice_id,
+                "invoice_number": self.invoice_prefix + str(invoice_id),
                 "currency_code": self.currency_code,
                 "note": note
             },
