@@ -25,7 +25,8 @@ class App:
         return new_tag
 
     def create_draft_invoice(self, invoice_tag, note, customer_email, item):
-        self.invoice_manager.create_invoice(invoice_tag, note, customer_email, item)
+        response = self.invoice_manager.create_invoice(invoice_tag, note, customer_email, item)
+        print(response)
 
 def main():
     app = App()

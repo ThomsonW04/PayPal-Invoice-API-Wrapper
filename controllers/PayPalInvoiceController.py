@@ -37,11 +37,11 @@ class PayPalInvoiceController:
             ],
             "items": [
                 {
-                    "name": item.name,
+                    "name": item["name"],
                     "quantity": "1",
                     "unit_amount": {
                         "currency_code": self.currency_code,
-                        "value": item.value
+                        "value": item['value']
                     }
                 }
             ]
