@@ -1,10 +1,14 @@
 import requests
+import base64
 
 class PayPalInvoiceController:
-    def __init__(self, api_token, vendor_given_names, vendor_last_names, vendor_email, invoice_prefix, currency_code):
-        self.invoice_api_url = "https://api-m.sandbox.paypal.com/v2/invoicing/invoices"
+    def __init__(self, client_id, client_secret, vendor_given_names, vendor_last_names, vendor_email, invoice_prefix, currency_code, dev_mode):
+        if dev_mode == "Y":
+            self.invoice_api_url = "https://api-m.sandbox.paypal.com/v2/invoicing/invoices"
+        else:
+            self.invoice_api_url = "https://api-m.paypal.com/v2/invoicing/invoices"
         self.headers = {
-            'Authorization': f'Bearer {api_token}',
+            'Authorization': f'Bearer {self.__get_api_token()}',
             'Content-Type': 'application/json',
             'Prefer': 'return=representation',
         }
@@ -13,6 +17,18 @@ class PayPalInvoiceController:
         self.vendor_email = vendor_email
         self.invoice_prefix = invoice_prefix
         self.currency_code = currency_code
+
+    def __get_api_token(self, client_id, client_secret):
+        auth = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        headers = {
+            "Authorization": f"Basic {auth}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        data = {"grant_type": "client_credentials"}
+        
+        response = requests.post("https://api-m.sandbox.paypal.com/v1/oauth2/token", headers=headers, data=data)
+        response.raise_for_status()
+        return response.json()["access_token"]
 
     def create_invoice(self, invoice_id, note, customer_email, item):
         body = {
