@@ -5,7 +5,10 @@ class DataBaseContoller:
     def __init__(self):
         self.database = sqlite3.connect(f"{os.getcwd()}/data/db.sqlite")
         self.cursor = self.database.cursor()
-    
+
+    def __del__(self):
+        self.database.close()
+
     def insert_new_invoice(self, invoice_tag):
         self.cursor.execute("INSERT INTO invoices (invoice_tag) VALUES (?)", (invoice_tag,))
         self.database.commit()
