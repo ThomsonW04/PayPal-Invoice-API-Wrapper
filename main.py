@@ -29,17 +29,22 @@ class App:
     def create_draft_invoice(self, invoice_tag, note, customer_email, item):
         response = self.invoice_manager.create_invoice(invoice_tag, note, customer_email, item)
         if response.status_code == 201:
-            self.database.set_paypal_invoice_id(response['id'])
-            return response
+            self.database.set_paypal_invoice_id(response.json()['id'], invoice_tag)
+            return response.json()
         else:
             self.database.delete_invoice(invoice_tag)
-            return response
-
+            return response.json()
+        
+    def send_invoice(self, invoice_id):
+        response = self.invoice_manager.send_invoice(invoice_id)
+        return response.json()
 
 def main():
     app = App()
     invoice_tag = app.create_local_invoice()
-    app.create_draft_invoice(invoice_tag, "Pleasure doing business.", "melissajadeclark10@gmail.com", {"name": "Living", "value": "50.00"})
+    resp = app.create_draft_invoice(invoice_tag, "Pleasure doing business.", "melissajadeclark10@gmail.com", {"name": "Living", "value": "50.00"})
+    resp = app.send_invoice(resp['id'])
+    print(resp)
 
 if __name__ == "__main__":
     main()
