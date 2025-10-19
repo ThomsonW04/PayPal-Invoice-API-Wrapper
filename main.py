@@ -8,12 +8,14 @@ load_dotenv()
 class App:
     def __init__(self):
         self.database = DataBaseContoller()
-        self.invoice_manager = PayPalInvoiceController(api_token = os.getenv("PAYPAL_API_TOKEN"), 
+        self.invoice_manager = PayPalInvoiceController(client_id = os.getenv("PAYPAL_CLIENT_ID"), 
+                                                       client_secret = os.getenv("PAYPAL_CLIENT_SECRET"), 
                                                        vendor_given_names = os.getenv("VENDOR_GIVEN_NAMES"), 
                                                        vendor_last_names = os.getenv("VENDOR_LAST_NAMES"), 
                                                        vendor_email = os.getenv("VENDOR_EMAIL"), 
                                                        invoice_prefix = os.getenv("INVOICE_PREFIX"), 
-                                                       currency_code = os.getenv("CURRENCY_CODE"))
+                                                       currency_code = os.getenv("CURRENCY_CODE"),
+                                                       dev_mode = os.getenv("DEV_MODE"))
 
     def create_local_invoice(self):
         last_tag = self.database.get_last_created_invoice()
